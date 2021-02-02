@@ -1,0 +1,15 @@
+Sub AlinharNivel()
+Dim AlInd As Integer
+Application.ScreenUpdating = False
+
+Do While ActiveCell.Value <> ""
+    AlInd = ActiveCell.Value - 1
+            With Selection
+                .HorizontalAlignment = xlLeft
+                .IndentLevel = AlInd
+            End With
+    ActiveCell.Offset(1, 0).Range("A1").Select
+Loop
+Application.ScreenUpdating = True
+End Sub
+'By Wellington Oliveira
