@@ -1,0 +1,38 @@
+Sub GerarPDFs()
+Dim shapenum As Integer
+shapenum = 1
+Dim i As Integer
+Dim cliName As String
+Dim sld As Slide
+Set sld = ActivePresentation.Slides(1)
+Dim shp As Shape
+Dim outPutFolder As String
+
+outPutFolder = ActivePresentation.path & "\PDFs_EXPORTADOS" & "\"
+ 
+If Dir(outPutFolder, vbDirectory) = "" Then
+    MkDir (outPutFolder)
+End If
+
+With ActivePresentation.Slides(2).Shapes(1).Table
+
+    For i = 1 To .Rows.Count
+
+      cliName = .Rows(i).Cells(1).Shape.TextFrame.TextRange.Text
+      cliCNPJ = .Rows(i).Cells(2).Shape.TextFrame.TextRange.Text
+      
+           Set shp = sld.Shapes(shapenum)
+            
+            shp.TextFrame.TextRange.Text = Replace(shp.TextFrame.TextRange.Text, "xempx", cliName)
+            shp.TextFrame.TextRange.Text = Replace(shp.TextFrame.TextRange.Text, "xcnpjx", cliCNPJ)
+            
+            sld.Export outPutFolder & cliName & ".PDF", "PDF"
+            
+            shp.TextFrame.TextRange.Text = Replace(shp.TextFrame.TextRange.Text, cliName, "xempx")
+            shp.TextFrame.TextRange.Text = Replace(shp.TextFrame.TextRange.Text, cliCNPJ, "xcnpjx")
+            
+    Next i
+
+End With
+
+End Sub
